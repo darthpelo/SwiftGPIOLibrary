@@ -10,13 +10,11 @@ fileprivate func GPIOs(for board: SupportedBoard) -> [GPIOName: GPIO] {
   return SwiftyGPIO.GPIOs(for: board)
 }
 
-public func setupOUT(gpios: [GPIOName: GPIO], for board: SupportedBoard) -> [GPIOName: GPIO] {
+public func setupOUT(gpios: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
   let list = GPIOs(for: board)
 
-  var filteredList: [GPIOName: GPIO] = [:]
-
   for key in gpios {
-    if let gpio = gpios[key] {
+    if let gpio = list[key] {
       gpio.direction = .OUT
       gpio.value = 0
       result[key] = gpio
