@@ -29,3 +29,22 @@ public func setupOUT(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName:
 
   return result
 }
+
+/// Returns a list of GPIOs configured as input
+///
+/// - Parameters:
+///   - ports: The ports to configure as input
+///   - board: The board name
+/// - Returns: The input ports
+public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
+  let gpios = GPIOs(for: board)
+  var result: [GPIOName: GPIO] = [:]
+  for key in ports {
+    if let gpio = gpios[key] {
+      gpio.direction = .IN
+      result[key] = gpio
+    }
+  }
+
+  return result
+}
