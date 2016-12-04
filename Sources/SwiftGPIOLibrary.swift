@@ -26,7 +26,7 @@ public func setupOUT(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName:
             result[key] = gpio
         }
     }
-    
+
     return result
 }
 
@@ -45,14 +45,14 @@ public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: 
             result[key] = gpio
         }
     }
-    
+
     return result
 }
 
-public func waiting(for milliseconds: Double) {
-    usleep(milliseconds * Constant.ms)
+public func waiting(for milliseconds: Int) {
+    usleep(milliseconds * Constant().ms)
 }
 
 private struct Constant {
-    let ms = 1000
+    let ms: Int = 1000
 }
