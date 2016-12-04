@@ -49,10 +49,10 @@ public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: 
     return result
 }
 
-public func waiting(for milliseconds: Int) {
-    usleep(milliseconds * Constant().ms)
+public func waiting(for milliseconds: UInt32) {
+    usleep(milliseconds * Constant.ms)
 }
 
 private struct Constant {
-    let ms: Int = 1000
+    static let ms: UInt32 = 1000
 }
