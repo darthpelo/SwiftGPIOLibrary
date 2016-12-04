@@ -6,10 +6,6 @@
 
 import SwiftyGPIO
 
-private func GPIOs(for board: SupportedBoard) -> [GPIOName: GPIO] {
-    return SwiftyGPIO.GPIOs(for: board)
-}
-
 /// Returns a list of GPIOs configured as output
 ///
 /// - Parameters:
@@ -49,10 +45,18 @@ public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: 
     return result
 }
 
+
+/// Waiting an amount of milliseconds before continue with the process
+///
+/// - Parameter milliseconds: How many milliseconds wait
 public func waiting(for milliseconds: UInt32) {
     usleep(milliseconds * Constant.ms)
 }
 
 private struct Constant {
     static let ms: UInt32 = 1000
+}
+
+private func GPIOs(for board: SupportedBoard) -> [GPIOName: GPIO] {
+    return SwiftyGPIO.GPIOs(for: board)
 }
