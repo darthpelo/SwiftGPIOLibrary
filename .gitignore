@@ -1,3 +1,2 @@
 *.playground
-*.build/
-Example/TestLibrary/.build
+*Example/TestLibrary/.build*
