@@ -21,9 +21,10 @@ func switchOn(led: Command?) {
     return
   }
 
+  // Setup pin 20 and 26 as output with value 0
   let list: [GPIOName] = [.P20, .P26]
   let gpios = setupOUT(ports: list, for: .RaspberryPi2)
-
+  // Setup pin 18 as input
   let button = setupIN(ports: [.P18], for: .RaspberryPi2)[.P18]
 
   switch(led) {
