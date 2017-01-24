@@ -6,15 +6,13 @@ import Darwin.C
 
 import SwiftyGPIO
 
-typealias Ports = [GPIOName]
-
 /// Returns a list of GPIOs configured as output
 ///
 /// - Parameters:
 ///   - ports: The ports to configure as output
 ///   - board: The board name
 /// - Returns: The output ports
-public func setupOUT(ports: Ports, for board: SupportedBoard) -> [GPIOName: GPIO] {
+public func setupOUT(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
   let gpios = GPIOs(for: board)
   var result: [GPIOName: GPIO] = [:]
   for key in ports {
@@ -34,7 +32,7 @@ public func setupOUT(ports: Ports, for board: SupportedBoard) -> [GPIOName: GPIO
 ///   - ports: The ports to configure as input
 ///   - board: The board name
 /// - Returns: The input ports
-public func setupIN(ports: Ports, for board: SupportedBoard) -> [GPIOName: GPIO] {
+public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
   let gpios = GPIOs(for: board)
   var result: [GPIOName: GPIO] = [:]
   for key in ports {
@@ -47,7 +45,7 @@ public func setupIN(ports: Ports, for board: SupportedBoard) -> [GPIOName: GPIO]
   return result
 }
 
-public func switchOn(ports: Ports, for board: SupportedBoard) {
+public func switchOn(ports: [GPIOName], for board: SupportedBoard) {
   let gpios = GPIOs(for: board)
   for key in ports {
     if let gpio = gpios[key] {
