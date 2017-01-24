@@ -7,9 +7,9 @@
 
 **A work in progress library to speed up your experiment with HW and Swift**
 .
-**This library uses [SwiftyGPIO](https://github.com/uraimo/SwiftyGPIO) and it scope is to help you to avoid repetetive operations**
+**This library uses [SwiftyGPIO](https://github.com/uraimo/SwiftyGPIO) and it scope is to help you to avoid repetitive operations**
 ## How to implement
-Use this library in your code it is very simple and it's possibile only using [SwiftPM](https://swift.org/package-manager/).
+Use this library in your code it is very simple and it's possible only using [SwiftPM](https://swift.org/package-manager/).
 In your `Package.swift` add this line in the **dependencies** section:
 ```swift
 .Package(url: "https://github.com/darthpelo/SwiftGPIOLibrary.git", majorVersion: 0),
@@ -18,9 +18,11 @@ In your `Package.swift` add this line in the **dependencies** section:
 ## Functions
 What can you use right now?
 
-1. Set up multiple pins as *outout*, passing only the `GPIOName`
+1. Set up multiple pins as *output*, passing only the `GPIOName`
 2. Set up multiple pins as *input*, passing only the `GPIOName`
 3. Use a waiting function instead of `unsleep(x * 1000)`
+4. Switch on multiple pins, passing only the `GPIOName`
+5. Switch off multiple pins, passing only the `GPIOName`
 
 ### 1. Setup some pins as output
 
@@ -99,5 +101,29 @@ func a() {
 /// - Parameter milliseconds: How many milliseconds wait
 public func waiting(for milliseconds: UInt32) {
     usleep(milliseconds * Constant.ms)
+}
+```
+
+### 4. Switch On
+```swift
+public func switchOn(ports: [GPIOName], for board: SupportedBoard) {
+  let gpios = GPIOs(for: board)
+  for key in ports {
+    if let gpio = gpios[key] {
+      gpio.value = 1
+    }
+  }
+}
+```
+
+### 5. Switch Off
+```swift
+public func switchOff(ports: [GPIOName], for board: SupportedBoard) {
+  let gpios = GPIOs(for: board)
+  for key in ports {
+    if let gpio = gpios[key] {
+      gpio.value = 0
+    }
+  }
 }
 ```
