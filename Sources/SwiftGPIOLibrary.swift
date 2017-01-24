@@ -6,7 +6,7 @@ import Darwin.C
 
 import SwiftyGPIO
 
-typealias Ports [GPIOName]
+typealias Ports = [GPIOName]
 
 /// Returns a list of GPIOs configured as output
 ///
