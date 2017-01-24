@@ -30,12 +30,12 @@ func switchOn(led: Command?) {
   switch led {
   case .one:
     print("one")
-    gpios[.P20]?.value = 1
-    gpios[.P26]?.value = 0
+    switchOn(ports: [.P20], for: .RaspberryPi2)
+    switchOff(ports: [.P26], for: .RaspberryPi2)
   case .two:
     print("two")
-    gpios[.P20]?.value = 0
-    gpios[.P26]?.value = 1
+    switchOn(ports: [.P26], for: .RaspberryPi2)
+    switchOff(ports: [.P20], for: .RaspberryPi2)
   case .blink:
     print("blink")
     while true {
