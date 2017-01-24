@@ -53,6 +53,16 @@ public func switchOn(ports: [GPIOName], for board: SupportedBoard) {
     }
   }
 }
+
+public func switchOff(ports: [GPIOName], for board: SupportedBoard) {
+  let gpios = GPIOs(for: board)
+  for key in ports {
+    if let gpio = gpios[key] {
+      gpio.value = 0
+    }
+  }
+}
+
 /// Waiting an amount of milliseconds before continue with the process
 ///
 /// - Parameter milliseconds: How many milliseconds wait
