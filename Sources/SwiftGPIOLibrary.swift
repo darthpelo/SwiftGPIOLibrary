@@ -50,11 +50,11 @@ public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: 
 ///
 /// - Parameter milliseconds: How many milliseconds wait
 public func waiting(for milliseconds: UInt32) {
-    usleep(milliseconds * Constant.ms)
+    usleep(milliseconds * Constant.milliseconds)
 }
 
 private struct Constant {
-    static let ms: UInt32 = 1000
+    static let milliseconds: UInt32 = 1000
 }
 
 private func GPIOs(for board: SupportedBoard) -> [GPIOName: GPIO] {
