@@ -3,10 +3,10 @@ import SwiftyGPIO
 import SwiftGPIOLibrary
 
 enum Command: Int {
-case one
-case two
-case blink
-case button
+case One
+case Two
+case Blink
+case Button
 }
 
 guard CommandLine.arguments.count == 2 else {
@@ -27,7 +27,7 @@ func switchOn(led: Command?) {
   // Setup pin 18 as input
   let button = setupIN(ports: [.P18], for: .RaspberryPi2)[.P18]
 
-  switch(led) {
+  switch led {
   case .one:
     print("one")
     gpios[.P20]?.value = 1
@@ -46,7 +46,7 @@ func switchOn(led: Command?) {
   case .button:
     print("button")
     var counter = 0
-    while(counter < 10) {
+    while counter < 10 {
       guard let value = button?.value else { return }
       if value == 0 {
         counter += 1
