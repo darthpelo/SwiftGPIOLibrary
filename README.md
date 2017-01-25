@@ -106,7 +106,11 @@ public func waiting(for milliseconds: UInt32) {
 
 ### 4. Switch On
 ```swift
-public func switchOn(ports: [GPIOName], for board: SupportedBoard) {
+public func switchOn(ports: [GPIOName]) {
+  guard let board = board else {
+    return
+  }
+
   let gpios = GPIOs(for: board)
   for key in ports {
     if let gpio = gpios[key] {
@@ -118,7 +122,11 @@ public func switchOn(ports: [GPIOName], for board: SupportedBoard) {
 
 ### 5. Switch Off
 ```swift
-public func switchOff(ports: [GPIOName], for board: SupportedBoard) {
+public func switchOff(ports: [GPIOName]) {
+  guard let board = board else {
+    return
+  }
+
   let gpios = GPIOs(for: board)
   for key in ports {
     if let gpio = gpios[key] {
