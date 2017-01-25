@@ -7,7 +7,7 @@ import Darwin.C
 import SwiftyGPIO
 
 public class GPIOLib {
-  class var sharedInstance: GPIOLib {
+  public class var sharedInstance: GPIOLib {
     struct Singleton {
       static let instance = GPIOLib()
     }
