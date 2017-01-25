@@ -70,11 +70,11 @@ public class GPIOLib {
     }
   }
 
-  public func switchOff(ports: [GPIOName], for board: SupportedBoard) {
+  public func switchOff(ports: [GPIOName]) {
     guard let board = board else {
         return
     }
-    
+
     let gpios = GPIOs(for: board)
     for key in ports {
       if let gpio = gpios[key] {
