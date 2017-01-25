@@ -13,6 +13,9 @@ public class GPIOLib {
     }
     return Singleton.instance
   }
+
+  private var board: SupportedBoard?
+
   /// Returns a list of GPIOs configured as output
   ///
   /// - Parameters:
@@ -20,6 +23,7 @@ public class GPIOLib {
   ///   - board: The board name
   /// - Returns: The output ports
   public func setupOUT(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
+    self.board = board
     let gpios = GPIOs(for: board)
     var result: [GPIOName: GPIO] = [:]
     for key in ports {
@@ -40,6 +44,7 @@ public class GPIOLib {
   ///   - board: The board name
   /// - Returns: The input ports
   public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
+    self.board = board
     let gpios = GPIOs(for: board)
     var result: [GPIOName: GPIO] = [:]
     for key in ports {
@@ -52,7 +57,11 @@ public class GPIOLib {
     return result
   }
 
-  public func switchOn(ports: [GPIOName], for board: SupportedBoard) {
+  public func switchOn(ports: [GPIOName]) {
+    guard let board = board else {
+        return
+    }
+
     let gpios = GPIOs(for: board)
     for key in ports {
       if let gpio = gpios[key] {
@@ -62,6 +71,10 @@ public class GPIOLib {
   }
 
   public func switchOff(ports: [GPIOName], for board: SupportedBoard) {
+    guard let board = board else {
+        return
+    }
+    
     let gpios = GPIOs(for: board)
     for key in ports {
       if let gpio = gpios[key] {
