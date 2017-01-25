@@ -83,6 +83,19 @@ public class GPIOLib {
     }
   }
 
+  public func blink(port: GPIOName) {
+    guard let board = board else {
+      return
+    }
+
+    let gpios = GPIOs(for: board)
+    let gpio = gpios[port]
+    while true {
+      gpio?.value = gpio?.value == 0 ? 1 : 0
+      waiting(for: 300)  // 300ms
+    }
+  }
+
   /// Waiting an amount of milliseconds before continue with the process
   ///
   /// - Parameter milliseconds: How many milliseconds wait
