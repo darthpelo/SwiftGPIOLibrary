@@ -1,113 +1,125 @@
 #if os(Linux)
-import Glibc
+    import Glibc
 #else
-import Darwin.C
+    import Darwin.C
 #endif
 
 import SwiftyGPIO
 
 public class GPIOLib {
-  public class var sharedInstance: GPIOLib {
-    struct Singleton {
-      static let instance = GPIOLib()
+    public class var sharedInstance: GPIOLib {
+        struct Singleton {
+            static let instance = GPIOLib()
+        }
+        return Singleton.instance
     }
-    return Singleton.instance
-  }
-
-  private var board: SupportedBoard?
-
-  /// Returns a list of GPIOs configured as output
-  ///
-  /// - Parameters:
-  ///   - ports: The ports to configure as output
-  ///   - board: The board name
-  /// - Returns: The output ports
-  public func setupOUT(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
-    self.board = board
-    let gpios = GPIOs(for: board)
-    var result: [GPIOName: GPIO] = [:]
-    for key in ports {
-      if let gpio = gpios[key] {
-        gpio.direction = .OUT
-        gpio.value = 0
-        result[key] = gpio
-      }
+    
+    private var board: SupportedBoard?
+    
+    /// Returns a list of GPIOs configured as output
+    ///
+    /// - Parameters:
+    ///   - ports: The ports to configure as output
+    ///   - board: The board name
+    /// - Returns: The output ports
+    public func setupOUT(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
+        self.board = board
+        let gpios = GPIOs(for: board)
+        var result: [GPIOName: GPIO] = [:]
+        for key in ports {
+            if let gpio = gpios[key] {
+                gpio.direction = .OUT
+                gpio.value = 0
+                result[key] = gpio
+            }
+        }
+        
+        return result
     }
-
-    return result
-  }
-
-  /// Returns a list of GPIOs configured as input
-  ///
-  /// - Parameters:
-  ///   - ports: The ports to configure as input
-  ///   - board: The board name
-  /// - Returns: The input ports
-  public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
-    self.board = board
-    let gpios = GPIOs(for: board)
-    var result: [GPIOName: GPIO] = [:]
-    for key in ports {
-      if let gpio = gpios[key] {
-        gpio.direction = .IN
-        result[key] = gpio
-      }
+    
+    /// Returns a list of GPIOs configured as input
+    ///
+    /// - Parameters:
+    ///   - ports: The ports to configure as input
+    ///   - board: The board name
+    /// - Returns: The input ports
+    public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
+        self.board = board
+        let gpios = GPIOs(for: board)
+        var result: [GPIOName: GPIO] = [:]
+        for key in ports {
+            if let gpio = gpios[key] {
+                gpio.direction = .IN
+                result[key] = gpio
+            }
+        }
+        
+        return result
     }
-
-    return result
-  }
-
-  public func switchOn(ports: [GPIOName]) {
-    guard let board = board else {
-        return
+    
+    /// Return the status of a specific GPIO
+    ///
+    /// - Parameter port: The GPIO
+    /// - Returns: The Int that rapresents the GPIO status or nil
+    func status(_ port: GPIO?) -> Int? {
+        guard let port = port else {
+            return nil
+        }
+        
+        return port.value
     }
-
-    let gpios = GPIOs(for: board)
-    for key in ports {
-      if let gpio = gpios[key] {
-        gpio.value = 1
-      }
+    
+    public func switchOn(ports: [GPIOName]) {
+        guard let board = board else {
+            return
+        }
+        
+        let gpios = GPIOs(for: board)
+        for key in ports {
+            if let gpio = gpios[key] {
+                gpio.value = 1
+            }
+        }
     }
-  }
-
-  public func switchOff(ports: [GPIOName]) {
-    guard let board = board else {
-        return
+    
+    public func switchOff(ports: [GPIOName]) {
+        guard let board = board else {
+            return
+        }
+        
+        let gpios = GPIOs(for: board)
+        for key in ports {
+            if let gpio = gpios[key] {
+                gpio.value = 0
+            }
+        }
     }
-
-    let gpios = GPIOs(for: board)
-    for key in ports {
-      if let gpio = gpios[key] {
-        gpio.value = 0
-      }
+    
+    public func blink(port: GPIOName) {
+        guard let board = board else {
+            return
+        }
+        
+        let gpios = GPIOs(for: board)
+        let gpio = gpios[port]
+        while true {
+            gpio?.value = gpio?.value == 0 ? 1 : 0
+            waiting(for: 300)  // 300ms
+        }
     }
-  }
-
-  public func blink(port: GPIOName) {
-    guard let board = board else {
-      return
+    
+    /// Waiting an amount of milliseconds before continue with the process
+    ///
+    /// - Parameter milliseconds: How many milliseconds wait
+    public func waiting(for milliseconds: UInt32) {
+        usleep(milliseconds * Constant.milliseconds)
     }
-
-    let gpios = GPIOs(for: board)
-    let gpio = gpios[port]
-    while true {
-      gpio?.value = gpio?.value == 0 ? 1 : 0
-      waiting(for: 300)  // 300ms
+    
+    private struct Constant {
+        static let milliseconds: UInt32 = 1000
     }
-  }
-
-  /// Waiting an amount of milliseconds before continue with the process
-  ///
-  /// - Parameter milliseconds: How many milliseconds wait
-  public func waiting(for milliseconds: UInt32) {
-    usleep(milliseconds * Constant.milliseconds)
-  }
-
-  private struct Constant {
-    static let milliseconds: UInt32 = 1000
-  }
-
-  private func GPIOs(for board: SupportedBoard) -> [GPIOName: GPIO] {
-    return SwiftyGPIO.GPIOs(for: board)
-  }
+    
+    private func GPIOs(for board: SupportedBoard) -> [GPIOName: GPIO] {
+        return SwiftyGPIO.GPIOs(for: board)
+    }
 }
