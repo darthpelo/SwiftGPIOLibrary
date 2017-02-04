@@ -69,6 +69,10 @@ public class GPIOLib {
         return port.value
     }
     
+    
+    /// Set the value of the ports to 1
+    ///
+    /// - Parameter ports: The array of ports
     public func switchOn(ports: [GPIOName]) {
         guard let board = board else {
             return
@@ -82,6 +86,10 @@ public class GPIOLib {
         }
     }
     
+    
+    /// Set the value of the ports to 0
+    ///
+    /// - Parameter ports: The array of ports
     public func switchOff(ports: [GPIOName]) {
         guard let board = board else {
             return
@@ -95,7 +103,13 @@ public class GPIOLib {
         }
     }
     
-    public func blink(port: GPIOName) {
+    
+    /// Led blink function
+    ///
+    /// - Parameters:
+    ///   - port: The port that controls the Led
+    ///   - frequency: The frequency, in milliseconds, between each 1
+    public func blink(port: GPIOName, withFrequency frequency: UInt32) {
         guard let board = board else {
             return
         }
@@ -104,7 +118,7 @@ public class GPIOLib {
         let gpio = gpios[port]
         while true {
             gpio?.value = gpio?.value == 0 ? 1 : 0
-            waiting(for: 300)  // 300ms
+            waiting(for: frequency)
         }
     }
     
