@@ -8,14 +8,15 @@
 **A work in progress library to speed up your experiment with HW and Swift**
 .
 **This library uses [SwiftyGPIO](https://github.com/uraimo/SwiftyGPIO) and it scope is to help you to avoid repetitive operations**
-## How to implement
+
+## 📖 How to implement
 Use this library in your code it is very simple and it's possible only using [SwiftPM](https://swift.org/package-manager/).
 In your `Package.swift` add this line in the **dependencies** section:
 ```swift
 .Package(url: "https://github.com/darthpelo/SwiftGPIOLibrary.git", majorVersion: 0),
 ```
 
-## Functions
+## ✨ Functions
 What can you use right now?
 
 1. Set up multiple pins as *output*, passing only the `GPIOName`
@@ -23,6 +24,7 @@ What can you use right now?
 3. Use a waiting function instead of `unsleep(x * 1000)`
 4. Switch on multiple pins, passing only the `GPIOName`
 5. Switch off multiple pins, passing only the `GPIOName`
+6. Led blinking, passing the `GPIOName` and the blink frequency
 
 ### 1. Setup some pins as output
 
@@ -135,3 +137,26 @@ public func switchOff(ports: [GPIOName]) {
   }
 }
 ```
+### 6. Led Blink
+```swift
+/// Led blink function
+///
+/// - Parameters:
+///   - port: The port that controls the Led
+///   - frequency: The frequency, in milliseconds, between each 1
+public func blink(port: GPIOName, withFrequency frequency: UInt32) {
+    guard let board = board else {
+        return
+    }
+        
+    let gpios = GPIOs(for: board)
+    let gpio = gpios[port]
+    while true {
+        gpio?.value = gpio?.value == 0 ? 1 : 0
+        waiting(for: frequency)
+    }
+}
+```
+## 🔧 Example
+
+In `Example/TestLibrary` you can find a program to run on your Rasbbery Pi to test SwiftGPIOLibrary.
