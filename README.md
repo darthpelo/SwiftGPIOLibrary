@@ -8,7 +8,7 @@
 
 **A work in progress library to speed up your experiment with HW and Swift**
 .
-**This library uses [SwiftyGPIO](https://github.com/uraimo/SwiftyGPIO) and it scope is to help you to avoid repetitive operations**
+This library uses **[SwiftyGPIO](https://github.com/uraimo/SwiftyGPIO)** and it scope is to help you to avoid repetitive operations**
 
 ## 📖 How to implement
 Use this library in your code it is very simple and it's possible only using [SwiftPM](https://swift.org/package-manager/).
@@ -161,3 +161,6 @@ public func blink(port: GPIOName, withFrequency frequency: UInt32) {
 ## 🔧 Example
 
 In `Example/TestLibrary` you can find a program to run on your Rasbbery Pi to test SwiftGPIOLibrary.
+
+## 🙏 Credits
+This library is leaned on the great job of @uraimo [SwiftyGPIO](https://github.com/uraimo/SwiftyGPIO)
