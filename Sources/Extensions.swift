@@ -7,11 +7,11 @@
 import SwiftyGPIO
 
 extension GPIOLib {
-  fileprivate struct Constant {
+  internal struct Constant {
       static let milliseconds: UInt32 = 1000
   }
 
-  fileprivate func GPIOs(for board: SupportedBoard) -> [GPIOName: GPIO] {
+  internal func GPIOs(for board: SupportedBoard) -> [GPIOName: GPIO] {
       return SwiftyGPIO.GPIOs(for: board)
   }
 }
