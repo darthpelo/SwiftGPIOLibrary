@@ -1,3 +1,11 @@
+#if os(Linux)
+    import Glibc
+#else
+    import Darwin.C
+#endif
+
+import SwiftyGPIO
+
 extension GPIOLib {
   fileprivate struct Constant {
       static let milliseconds: UInt32 = 1000
