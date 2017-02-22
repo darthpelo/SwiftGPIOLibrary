@@ -13,9 +13,9 @@ public class GPIOLib {
         }
         return Singleton.instance
     }
-    
+
     private var board: SupportedBoard?
-    
+
     /// Returns a list of GPIOs configured as output
     ///
     /// - Parameters:
@@ -33,10 +33,9 @@ public class GPIOLib {
                 result[key] = gpio
             }
         }
-        
         return result
     }
-    
+
     /// Returns a list of GPIOs configured as input
     ///
     /// - Parameters:
@@ -53,10 +52,10 @@ public class GPIOLib {
                 result[key] = gpio
             }
         }
-        
+
         return result
     }
-    
+
     /// Return the status of a specific GPIO
     ///
     /// - Parameter port: The GPIO
@@ -65,10 +64,9 @@ public class GPIOLib {
         guard let port = port else {
             return nil
         }
-        
+
         return port.value
     }
-    
     
     /// Set the value of the ports to 1
     ///
@@ -77,7 +75,7 @@ public class GPIOLib {
         guard let board = board else {
             return
         }
-        
+
         let gpios = GPIOs(for: board)
         for key in ports {
             if let gpio = gpios[key] {
@@ -85,8 +83,7 @@ public class GPIOLib {
             }
         }
     }
-    
-    
+
     /// Set the value of the ports to 0
     ///
     /// - Parameter ports: The array of ports
@@ -94,7 +91,7 @@ public class GPIOLib {
         guard let board = board else {
             return
         }
-        
+
         let gpios = GPIOs(for: board)
         for key in ports {
             if let gpio = gpios[key] {
@@ -102,8 +99,7 @@ public class GPIOLib {
             }
         }
     }
-    
-    
+
     /// Led blink function
     ///
     /// - Parameters:
@@ -113,7 +109,7 @@ public class GPIOLib {
         guard let board = board else {
             return
         }
-        
+
         let gpios = GPIOs(for: board)
         let gpio = gpios[port]
         while true {
@@ -121,19 +117,11 @@ public class GPIOLib {
             waiting(for: frequency)
         }
     }
-    
+
     /// Waiting an amount of milliseconds before continue with the process
     ///
     /// - Parameter milliseconds: How many milliseconds wait
     public func waiting(for milliseconds: UInt32) {
         usleep(milliseconds * Constant.milliseconds)
-    }
-    
-    private struct Constant {
-        static let milliseconds: UInt32 = 1000
-    }
-    
-    private func GPIOs(for board: SupportedBoard) -> [GPIOName: GPIO] {
-        return SwiftyGPIO.GPIOs(for: board)
     }
 }
