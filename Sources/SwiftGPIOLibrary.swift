@@ -20,7 +20,7 @@ public class GPIOLib: GPIOable {
         return Singleton.instance
     }
 
-    private var board: SupportedBoard?
+    fileprivate var board: SupportedBoard?
 
     /// Returns a list of GPIOs configured as output
     ///
