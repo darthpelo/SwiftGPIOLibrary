@@ -137,6 +137,6 @@ extension GPIOLib {
 
   fileprivate func GPIOs(for board: SupportedBoard) -> Ports {
       self.board = board
-      return SwiftyGPIO.GPIOs(for: self.board)
+      return SwiftyGPIO.GPIOs(for: board)
   }
 }
