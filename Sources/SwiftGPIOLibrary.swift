@@ -6,7 +6,13 @@
 
 import SwiftyGPIO
 
-public class GPIOLib {
+protocol GPIOable {
+  associatedtype Ports
+}
+
+public class GPIOLib: GPIOable {
+    typealias Ports = [GPIOName: GPIO]
+
     public class var sharedInstance: GPIOLib {
         struct Singleton {
             static let instance = GPIOLib()
@@ -23,7 +29,6 @@ public class GPIOLib {
     ///   - board: The board name
     /// - Returns: The output ports
     public func setupOUT(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
-        self.board = board
         let gpios = GPIOs(for: board)
         var result: [GPIOName: GPIO] = [:]
         for key in ports {
@@ -43,7 +48,6 @@ public class GPIOLib {
     ///   - board: The board name
     /// - Returns: The input ports
     public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
-        self.board = board
         let gpios = GPIOs(for: board)
         var result: [GPIOName: GPIO] = [:]
         for key in ports {
@@ -67,7 +71,7 @@ public class GPIOLib {
 
         return port.value
     }
-    
+
     /// Set the value of the ports to 1
     ///
     /// - Parameter ports: The array of ports
@@ -124,4 +128,15 @@ public class GPIOLib {
     public func waiting(for milliseconds: UInt32) {
         usleep(milliseconds * Constant.milliseconds)
     }
+}
+
+extension GPIOLib {
+  fileprivate struct Constant {
+      static let milliseconds: UInt32 = 1000
+  }
+
+  fileprivate func GPIOs(for board: SupportedBoard) -> Ports {
+      self.board = board
+      return SwiftyGPIO.GPIOs(for: self.board)
+  }
 }
