@@ -7,7 +7,7 @@
 import SwiftyGPIO
 
 public class GPIOLib {
-    typealias Ports = [GPIOName: GPIO]
+    public typealias Ports = [GPIOName: GPIO]
 
     public class var sharedInstance: GPIOLib {
         struct Singleton {
@@ -60,7 +60,7 @@ public class GPIOLib {
     ///
     /// - Parameter port: The GPIO
     /// - Returns: The Int that rapresents the GPIO status or nil
-    func status(_ port: GPIO?) -> Int? {
+    public func status(_ port: GPIO?) -> Int? {
         var value = 0
         port.then{ value = $0.value }
         return value
