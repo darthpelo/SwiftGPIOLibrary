@@ -6,11 +6,7 @@
 
 import SwiftyGPIO
 
-protocol GPIOable {
-  associatedtype Ports
-}
-
-public class GPIOLib: GPIOable {
+public class GPIOLib {
     typealias Ports = [GPIOName: GPIO]
 
     public class var sharedInstance: GPIOLib {
@@ -28,9 +24,9 @@ public class GPIOLib: GPIOable {
     ///   - ports: The ports to configure as output
     ///   - board: The board name
     /// - Returns: The output ports
-    public func setupOUT(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
+    public func setupOUT(ports: [GPIOName], for board: SupportedBoard) -> Ports {
         let gpios = GPIOs(for: board)
-        var result: [GPIOName: GPIO] = [:]
+        var result: Ports = [:]
         for key in ports {
             if let gpio = gpios[key] {
                 gpio.direction = .OUT
@@ -47,9 +43,9 @@ public class GPIOLib: GPIOable {
     ///   - ports: The ports to configure as input
     ///   - board: The board name
     /// - Returns: The input ports
-    public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> [GPIOName: GPIO] {
+    public func setupIN(ports: [GPIOName], for board: SupportedBoard) -> Ports {
         let gpios = GPIOs(for: board)
-        var result: [GPIOName: GPIO] = [:]
+        var result: Ports = [:]
         for key in ports {
             if let gpio = gpios[key] {
                 gpio.direction = .IN
@@ -65,11 +61,9 @@ public class GPIOLib: GPIOable {
     /// - Parameter port: The GPIO
     /// - Returns: The Int that rapresents the GPIO status or nil
     func status(_ port: GPIO?) -> Int? {
-        guard let port = port else {
-            return nil
-        }
-
-        return port.value
+        var value = 0
+        port.then{ value = $0.value }
+        return value
     }
 
     /// Set the value of the ports to 1
