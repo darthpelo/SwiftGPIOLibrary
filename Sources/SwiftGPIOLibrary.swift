@@ -24,17 +24,18 @@ public class GPIOLib {
     ///   - ports: The ports to configure as output
     ///   - board: The board name
     /// - Returns: The output ports
-    public func setupOUT(ports: [GPIOName], for board: SupportedBoard) -> Ports {
-        let gpios = GPIOs(for: board)
-        var result: Ports = [:]
-        for key in ports {
-            if let gpio = gpios[key] {
-                gpio.direction = .OUT
-                gpio.value = 0
-                result[key] = gpio
-            }
+    public func setupOUT(ports: [GPIOName],
+                     for board: SupportedBoard) -> Ports {
+      let gpios = GPIOs(for: board)
+      var result: Ports = [:]
+      for key in ports {
+        if let gpio = gpios[key] {
+          gpio.direction = .OUT
+          gpio.value = 0
+          result[key] = gpio
         }
-        return result
+      }
+      return result
     }
 
     /// Returns a list of GPIOs configured as input

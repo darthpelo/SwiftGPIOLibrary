@@ -7,6 +7,7 @@ case One
 case Two
 case Blink
 case Button
+case Off
 }
 
 guard CommandLine.arguments.count == 2 else {
@@ -21,38 +22,39 @@ func switchOn(led: Command?) {
     return
   }
 
+  let gpioLib = GPIOLib.sharedInstance
+
   // Setup pin 20 and 26 as output with value 0
   let list: [GPIOName] = [.P20, .P26]
-  let gpios = setupOUT(ports: list, for: .RaspberryPi2)
+  let gpios = gpioLib.setupOUT(ports: list, for: .RaspberryPi2)
+
   // Setup pin 18 as input
-  let button = setupIN(ports: [.P18], for: .RaspberryPi2)[.P18]
+  let button = gpioLib.setupIN(ports: [.P18], for: .RaspberryPi2)[.P18]
 
   switch led {
-  case .one:
+  case .Off:
+    gpioLib.switchOff(ports: [.P20, .P26])
+  case .One:
     print("one")
-    switchOn(ports: [.P20], for: .RaspberryPi2)
-    switchOff(ports: [.P26], for: .RaspberryPi2)
-  case .two:
+    gpioLib.switchOn(ports: [.P20], for: .RaspberryPi2)
+    gpioLib.switchOff(ports: [.P26], for: .RaspberryPi2)
+  case .Two:
     print("two")
-    switchOn(ports: [.P26], for: .RaspberryPi2)
-    switchOff(ports: [.P20], for: .RaspberryPi2)
+    gpioLib.switchOn(ports: [.P26], for: .RaspberryPi2)
+    gpioLib.switchOff(ports: [.P20], for: .RaspberryPi2)
   case .blink:
     print("blink")
-    while true {
-      gpios[.P20]?.value = gpios[.P20]?.value == 0 ? 1 : 0
-      gpios[.P26]?.value = gpios[.P20]?.value == 0 ? 1 : 0
-      waiting(for: 300)  // 300ms
-    }
+    gpioLib.blink(port: .P20, withFrequency: 200)
   case .button:
     print("button")
     var counter = 0
-    while counter < 10 {
+    while(counter < 10) {
       guard let value = button?.value else { return }
       if value == 0 {
         counter += 1
         gpios[.P20]?.value = 1
         gpios[.P26]?.value = 1
-        waiting(for: 500) // 500ms
+        GPIOLib.sharedInstance.waiting(for: 500) // 100ms
       } else {
         gpios[.P20]?.value = 0
         gpios[.P26]?.value = 0
