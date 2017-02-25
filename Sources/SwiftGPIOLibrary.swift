@@ -6,9 +6,9 @@
 
 import SwiftyGPIO
 
-public class GPIOLib {
-    public typealias Ports = [GPIOName: GPIO]
+public typealias Ports = [GPIOName: GPIO]
 
+public class GPIOLib {
     public class var sharedInstance: GPIOLib {
         struct Singleton {
             static let instance = GPIOLib()
@@ -134,3 +134,8 @@ extension GPIOLib {
       return SwiftyGPIO.GPIOs(for: board)
   }
 }
+
+// MARK: - Darwin / Xcode Support
+#if os(OSX)
+    private var O_SYNC: CInt { fatalError("Linux only") }
+#endif
