@@ -61,7 +61,7 @@ public class GPIOLib {
     ///
     /// - Parameter port: The GPIO
     /// - Returns: The Int that rapresents the GPIO status or nil
-    public func status(_ port: GPIO?) -> Int? {
+    public func status(_ port: GPIO?) -> Int {
         var value = 0
         port.then{ value = $0.value }
         return value
