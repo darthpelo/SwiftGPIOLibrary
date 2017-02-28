@@ -94,6 +94,7 @@ public class GPIOLib {
         }
 
         let gpios = GPIOs(for: board)
+
         for key in ports {
             if let gpio = gpios[key] {
                 gpio.value = 0
