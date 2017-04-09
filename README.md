@@ -6,8 +6,9 @@
 
 # SwiftGPIOLibrary
 
-**A work in progress library to speed up your experiment with HW and Swift**
-.
+🚧🚧🚧 **A work in progress library to speed up your experiment with HW and Swift.** 🚧🚧🚧
+
+
 The library uses **[SwiftyGPIO](https://github.com/uraimo/SwiftyGPIO)** and its scope is to help you to avoid repetitive operations.
 
 ## 📖 How to implement
@@ -16,6 +17,10 @@ In your `Package.swift` add this line in the **dependencies** section:
 ```swift
 .Package(url: "https://github.com/darthpelo/SwiftGPIOLibrary.git", majorVersion: 0),
 ```
+
+## 🤓 Examples
+- [TestLibrary](https://github.com/darthpelo/SwiftGPIOLibrary/tree/develop/Example/TestLibrary)
+- [LedsControl](https://github.com/darthpelo/LedControl)
 
 ## ✨ Functions
 What can you use right now?
@@ -149,7 +154,7 @@ public func blink(port: GPIOName, withFrequency frequency: UInt32) {
     guard let board = board else {
         return
     }
-        
+
     let gpios = GPIOs(for: board)
     let gpio = gpios[port]
     while true {
