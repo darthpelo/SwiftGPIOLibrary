@@ -160,7 +160,7 @@ public func blink(port: GPIOName, withFrequency frequency: UInt32) {
 ```
 ## 🔧 Example
 
-In `Example/TestLibrary` you can find a program to run on your Rasbbery Pi to test SwiftGPIOLibrary.
+In `Example/TestLibrary` you can find a program to run on your Raspberry Pi to test SwiftGPIOLibrary.
 
 ## 🙏 Credits
 This library is leaned on the great job of @uraimo [SwiftyGPIO](https://github.com/uraimo/SwiftyGPIO)
